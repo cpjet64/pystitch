@@ -30,6 +30,49 @@ classifiers = [
         "Topic :: Software Development :: Libraries :: Python Modules"
 ]
 
+[project.optional-dependencies]
+dev = [
+  "black>=24.0.0",
+  "build>=1.2.2",
+  "coverage>=7.0.0",
+  "debugpy>=1.8.0",
+  "hypothesis>=6.0.0",
+  "mypy>=1.8.0",
+  "nox>=2024.4.15",
+  "pip-audit>=2.7.3",
+  "pytest>=8.0.0",
+  "ruff>=0.6.0",
+  "twine>=5.1.1",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py39"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E9", "F63", "F7", "F82"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_unused_configs = true
+show_error_codes = true
+disable_error_code = ["var-annotated", "assignment", "attr-defined"]
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+
+[tool.coverage.run]
+source = ["src/pystitch"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
 [project.urls]
 Repository = "https://github.com/inkstitch/pystitch"
 Issues = "https://github.com/inkstitch/pystitch/issues"

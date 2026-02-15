@@ -3,7 +3,6 @@
 import nox
 
 SUPPORTED_PYTHONS = ["3.9", "3.10", "3.11", "3.12", "3.13"]
-EXPERIMENTAL_PYTHONS = ["3.14"]
 
 nox.options.default_venv_backend = "uv|virtualenv"
 nox.options.error_on_missing_interpreters = True
@@ -34,15 +33,6 @@ def run_tests(session: nox.Session) -> None:
 @nox.session(python=SUPPORTED_PYTHONS)
 def ci(session: nox.Session) -> None:
     """Run tests + lint + type checks for supported versions."""
-    install_dev(session)
-    run_tests(session)
-    run_lint(session)
-    run_typecheck(session)
-
-
-@nox.session(python=EXPERIMENTAL_PYTHONS)
-def experimental(session: nox.Session) -> None:
-    """Run the full quality pipeline for experimental Python versions."""
     install_dev(session)
     run_tests(session)
     run_lint(session)

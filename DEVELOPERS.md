@@ -53,108 +53,61 @@ This document is the master developer guide for this repository.
 ```powershell
 Set-Location f:\projects\oss\pystitch
 
-# Install missing Python versions (if needed)
-py install 3.9
-py install 3.10
-py install 3.11
-py install 3.12
 py install 3.13
-# Optional experimental version
-py install 3.14
 
-# Create venvs
-py -3.9 -m venv .venv39
-py -3.10 -m venv .venv310
-py -3.11 -m venv .venv311
-py -3.12 -m venv .venv312
-py -3.13 -m venv .venv313
-# Optional experimental venv
-py -3.14 -m venv .venv314
+# Create the primary local venv
+py -3.13 -m venv .venv/3.13
 
-# Install the same dev toolchain into all supported venvs
-$venvs = @('.venv39', '.venv310', '.venv311', '.venv312', '.venv313')
-foreach ($v in $venvs) { .\$v\Scripts\python.exe -m pip install -e .[dev] }
-# Optional experimental setup
-if (Test-Path .venv314) { .\.venv314\Scripts\python.exe -m pip install -e .[dev] }
+# Install the development toolchain
+.\.venv\3.13\Scripts\python.exe -m pip install -e .[dev]
 
 # Smoke test one environment
-.\.venv313\Scripts\python.exe -m nox -s quick-3.13
+.\.venv\3.13\Scripts\python.exe -m nox -s quick-3.13
 ```
 
 ### macOS (zsh/bash + pyenv recommended)
 ```bash
 cd /path/to/pystitch
 
-# Install versions (if missing)
-pyenv install 3.9.21
-pyenv install 3.10.16
-pyenv install 3.11.11
-pyenv install 3.12.9
 pyenv install 3.13.2
-# Optional experimental version
-pyenv install 3.14.0
 
-# Create venvs
-PYENV_VERSION=3.9.21  python -m venv .venv39
-PYENV_VERSION=3.10.16 python -m venv .venv310
-PYENV_VERSION=3.11.11 python -m venv .venv311
-PYENV_VERSION=3.12.9  python -m venv .venv312
-PYENV_VERSION=3.13.2  python -m venv .venv313
+# Create the primary local venv
+PYENV_VERSION=3.13.2 python -m venv .venv/3.13
 
-# Install the same dev toolchain into all supported venvs
-for v in .venv39 .venv310 .venv311 .venv312 .venv313; do "$v/bin/python" -m pip install -e .[dev]; done
-# Optional experimental setup
-PYENV_VERSION=3.14.0 python -m venv .venv314
-if [ -d .venv314 ]; then .venv314/bin/python -m pip install -e .[dev]; fi
+# Install the development toolchain
+.venv/3.13/bin/python -m pip install -e .[dev]
 
 # Smoke test
-.venv313/bin/python -m nox -s quick-3.13
+.venv/3.13/bin/python -m nox -s quick-3.13
 ```
 
 ### Linux (bash + pyenv recommended)
 ```bash
 cd /path/to/pystitch
 
-# Install versions (if missing)
-pyenv install 3.9.21
-pyenv install 3.10.16
-pyenv install 3.11.11
-pyenv install 3.12.9
 pyenv install 3.13.2
-# Optional experimental version
-pyenv install 3.14.0
 
-# Create venvs
-PYENV_VERSION=3.9.21  python -m venv .venv39
-PYENV_VERSION=3.10.16 python -m venv .venv310
-PYENV_VERSION=3.11.11 python -m venv .venv311
-PYENV_VERSION=3.12.9  python -m venv .venv312
-PYENV_VERSION=3.13.2  python -m venv .venv313
+# Create the primary local venv
+PYENV_VERSION=3.13.2 python -m venv .venv/3.13
 
-# Install the same dev toolchain into all supported venvs
-for v in .venv39 .venv310 .venv311 .venv312 .venv313; do "$v/bin/python" -m pip install -e .[dev]; done
-# Optional experimental setup
-PYENV_VERSION=3.14.0 python -m venv .venv314
-if [ -d .venv314 ]; then .venv314/bin/python -m pip install -e .[dev]; fi
+# Install the development toolchain
+.venv/3.13/bin/python -m pip install -e .[dev]
 
 # Smoke test
-.venv313/bin/python -m nox -s quick-3.13
+.venv/3.13/bin/python -m nox -s quick-3.13
 ```
 
 ## Supported Python + venvs
 - Package support baseline: `requires-python = ">=3.9"` in `pyproject.toml`.
 - Supported/gated versions:
   - Python `3.9` through `3.13` on Linux/Windows/macOS.
-- Experimental/non-gated version:
-  - Python `3.14` (runs in CI as non-blocking until tooling stability is fully confirmed).
-- Local development venv names:
-  - `.venv39`, `.venv310`, `.venv311`, `.venv312`, `.venv313`, `.venv314`.
+- Primary local development venv:
+  - `.venv/3.13`.
 - CI/local parity policy:
-  - supported local venvs (`.venv39` through `.venv313`) must match the supported CI matrix exactly.
-  - experimental versions may exist locally and in CI as non-gated jobs.
+  - local nox sessions should match the supported CI matrix (`3.9` through `3.13`).
 - Naming convention:
-  - `.venv<major><minor>` for two-digit minor versions.
-  - Example: Python 3.12 -> `.venv312`.
+  - `.venv/<major.minor>`.
+  - Example: Python 3.12 -> `.venv/3.12`.
 - Upgrade policy:
   - When adding/removing supported Python versions, update all of:
     - `pyproject.toml` classifiers and `requires-python` if needed.
@@ -168,7 +121,7 @@ if [ -d .venv314 ]; then .venv314/bin/python -m pip install -e .[dev]; fi
 - `.github/workflows/`: CI workflow definitions (currently `test.yml`).
 - `src/pystitch/`: library source code (core model, encoder, readers, writers, helpers).
 - `test/`: unittest suite and regression tests.
-- `.venv39`, `.venv310`, `.venv311`, `.venv312`, `.venv313`, `.venv314`: local development virtual environments (ignored by git).
+- `.venv/`: local development virtual environments (ignored by git).
 - `unittest_venv*.log`: local multi-venv test output logs (ignored by git).
 - `.AGENTS/`: local planning/audit artifacts for agent workflows (ignored by git).
 - `README.md`: user-facing overview and feature documentation.
@@ -198,20 +151,13 @@ if [ -d .venv314 ]; then .venv314/bin/python -m pip install -e .[dev]; fi
 
 ### Install dev toolchain
 ```powershell
-.\.venv313\Scripts\python.exe -m pip install -e .[dev]
+.\.venv\3.13\Scripts\python.exe -m pip install -e .[dev]
 ```
 - The `dev` extra includes: `ruff`, `black`, `mypy`, `coverage`, `debugpy`, `pytest`, `hypothesis`, and `nox`.
-- For strict version parity, install the same dev extra in all supported-version venvs:
-```powershell
-$venvs = @('.venv39', '.venv310', '.venv311', '.venv312', '.venv313')
-foreach ($v in $venvs) { .\$v\Scripts\python.exe -m pip install -e .[dev] }
-# Optional experimental venv:
-if (Test-Path .venv314) { .\.venv314\Scripts\python.exe -m pip install -e .[dev] }
-```
 
 ### Show available nox sessions
 ```powershell
-.\.venv313\Scripts\python.exe -m nox --list
+.\.venv\3.13\Scripts\python.exe -m nox --list
 ```
 - Nox environment backend policy:
   - prefer `uv` when available for faster virtual environment setup.
@@ -224,44 +170,43 @@ if (Test-Path .venv314) { .\.venv314\Scripts\python.exe -m pip install -e .[dev]
 - Optional shell alternative: `bash .githooks/install.sh`.
 - Hook policy:
   - `pre-commit` is intentionally fast (staged-file syntax + Ruff + Black checks).
-  - `pre-push` is intentionally strict (full supported matrix + packaging + blocking audit; experimental remains non-blocking).
+  - `pre-push` is intentionally strict (full supported matrix + packaging + blocking audit).
 
 ### Run default supported-version quality matrix
 ```powershell
-.\.venv313\Scripts\python.exe -m nox
+.\.venv\3.13\Scripts\python.exe -m nox
 ```
 
 ### Run full supported-version quality matrix locally
 ```powershell
-.\.venv313\Scripts\python.exe -m nox -s ci
+.\.venv\3.13\Scripts\python.exe -m nox -s ci
 ```
 
 ### Run specific sessions
 ```powershell
-.\.venv313\Scripts\python.exe -m nox -s ci-3.13
-.\.venv313\Scripts\python.exe -m nox -s quick-3.13
-.\.venv313\Scripts\python.exe -m nox -s experimental-3.14
-.\.venv313\Scripts\python.exe -m nox -s package-3.13
-.\.venv313\Scripts\python.exe -m nox -s audit-3.13
+.\.venv\3.13\Scripts\python.exe -m nox -s ci-3.13
+.\.venv\3.13\Scripts\python.exe -m nox -s quick-3.13
+.\.venv\3.13\Scripts\python.exe -m nox -s package-3.13
+.\.venv\3.13\Scripts\python.exe -m nox -s audit-3.13
 ```
 - `ci-*` sessions run tests, lint, and static typing together for parity with supported CI jobs.
 
 ### Run one test module directly (debug fallback)
 ```powershell
-.\.venv313\Scripts\python.exe -m pytest -q test/test_embpattern.py
+.\.venv\3.13\Scripts\python.exe -m pytest -q test/test_embpattern.py
 ```
 
 ### Build package
 ```powershell
-.\.venv313\Scripts\python.exe -m nox -s package-3.13
+.\.venv\3.13\Scripts\python.exe -m nox -s package-3.13
 ```
 
 ### Docs checks (Sphinx rollout target)
 ```powershell
-.\.venv313\Scripts\python.exe -m pip install -e .[docs]
-.\.venv313\Scripts\python.exe -m sphinx -W --keep-going -b html docs docs/_build/html
-.\.venv313\Scripts\python.exe -m sphinx -W --keep-going -b linkcheck docs docs/_build/linkcheck
-.\.venv313\Scripts\python.exe scripts/check_docs_coverage.py
+.\.venv\3.13\Scripts\python.exe -m pip install -e .[docs]
+.\.venv\3.13\Scripts\python.exe -m sphinx -W --keep-going -b html docs docs/_build/html
+.\.venv\3.13\Scripts\python.exe -m sphinx -W --keep-going -b linkcheck docs docs/_build/linkcheck
+.\.venv\3.13\Scripts\python.exe scripts/check_docs_coverage.py
 ```
 
 ## Validation Matrix
@@ -273,17 +218,14 @@ if (Test-Path .venv314) { .\.venv314\Scripts\python.exe -m pip install -e .[dev]
 - Before push:
   - let `pre-push` run strict checks:
     - required: `nox -s ci package-3.13 audit-3.13`
-    - non-blocking: `nox -s experimental-3.14`
   - add temporary exceptions only in `.ci/audit-waivers.json` with `owner`, `reason`, and `expires`.
 - Before PR:
-  - run `python -m nox` on the primary dev environment (`.venv313`) to execute supported-version quality parity checks.
+  - run `python -m nox` on the primary dev environment (`.venv/3.13`) to execute supported-version quality parity checks.
   - include proof-test evidence for refactors showing end results are unchanged.
   - for broad-impact changes, run multi-interpreter nox supported sessions (`ci-3.9` through `ci-3.13`).
-  - run `experimental-3.14` when changes may impact upcoming interpreter compatibility.
   - include evidence in PR description (commands run, key outputs, risk notes).
 - Before release:
   - full nox supported quality matrix across supported versions.
-  - run the experimental interpreter session and review failures before broad support expansion.
   - build sdist/wheel and verify integrity.
   - run docs build and coverage checks.
   - confirm release/version/changelog consistency.
@@ -378,10 +320,10 @@ if (Test-Path .venv314) { .\.venv314\Scripts\python.exe -m pip install -e .[dev]
   - The commands below are future-state examples to use after the docs rollout lands.
 - Expected commands:
 ```powershell
-.\.venv313\Scripts\python.exe -m pip install -e .[docs]
-.\.venv313\Scripts\python.exe -m sphinx -W --keep-going -b html docs docs/_build/html
-.\.venv313\Scripts\python.exe -m sphinx -W --keep-going -b linkcheck docs docs/_build/linkcheck
-.\.venv313\Scripts\python.exe scripts/check_docs_coverage.py
+.\.venv\3.13\Scripts\python.exe -m pip install -e .[docs]
+.\.venv\3.13\Scripts\python.exe -m sphinx -W --keep-going -b html docs docs/_build/html
+.\.venv\3.13\Scripts\python.exe -m sphinx -W --keep-going -b linkcheck docs docs/_build/linkcheck
+.\.venv\3.13\Scripts\python.exe scripts/check_docs_coverage.py
 ```
 - Autosummary conventions:
   - Public API pages are generated from source and export boundaries.
@@ -438,7 +380,6 @@ if (Test-Path .venv314) { .\.venv314\Scripts\python.exe -m pip install -e .[dev]
   - `.github/dependabot.yml`
   - Supported matrix job: Linux/Windows/macOS x Python 3.9-3.13 via nox `ci-*`.
   - Packaging verification job: Python 3.13 via nox `package-3.13`.
-  - Experimental job: Python 3.14 via nox `experimental-3.14` (non-blocking).
   - Audit job: Python 3.13 via nox `audit-3.13` (blocking, waiver-aware).
   - Dependency review workflow blocks high-severity dependency/workflow risk on pull requests.
   - Dependabot opens weekly update PRs for pip dependencies and GitHub Actions.
@@ -451,9 +392,8 @@ if (Test-Path .venv314) { .\.venv314\Scripts\python.exe -m pip install -e .[dev]
   - dependency-review must pass on PRs that modify dependency/workflow files.
   - security exceptions are only allowed through `.ci/audit-waivers.json`.
 - Local reproduction:
-  - run `python -m nox -s ci` from `.venv313` for full supported-version parity.
+  - run `python -m nox -s ci` from `.venv/3.13` for full supported-version parity.
   - if you need a single-target repro, run `python -m nox -s ci-3.12` (replace version as needed).
-  - run `python -m nox -s experimental-3.14` to reproduce the non-gated job.
   - run `python -m nox -s package-3.13` to reproduce packaging checks.
   - run `python -m nox -s audit-3.13` to reproduce blocking dependency audit checks.
   - install hooks once per clone with `.\.githooks\install.ps1` (or `bash .githooks/install.sh`).
@@ -470,9 +410,9 @@ if (Test-Path .venv314) { .\.venv314\Scripts\python.exe -m pip install -e .[dev]
   4. Bump version in `pyproject.toml`.
 - Packaging:
 ```powershell
-.\.venv313\Scripts\python.exe -m pip install --upgrade build twine
-.\.venv313\Scripts\python.exe -m build
-.\.venv313\Scripts\python.exe -m twine check dist/*
+.\.venv\3.13\Scripts\python.exe -m pip install --upgrade build twine
+.\.venv\3.13\Scripts\python.exe -m build
+.\.venv\3.13\Scripts\python.exe -m twine check dist/*
 ```
 - Publish (when authorized):
   - publish with trusted release workflow or scoped PyPI token.
@@ -491,7 +431,7 @@ if (Test-Path .venv314) { .\.venv314\Scripts\python.exe -m pip install -e .[dev]
   - remove stale generated test files in workspace root before rerun.
 - CI mismatch vs local:
   - replicate CI version and OS as closely as possible.
-  - run the same nox session as CI (`ci-<version>`, `experimental-3.14`, or full `ci`).
+  - run the same nox session as CI (`ci-<version>` or full `ci`).
 - Docs build failures:
   - check import paths in `docs/conf.py`.
   - ensure public symbols are exported intentionally.
@@ -536,7 +476,7 @@ if (Test-Path .venv314) { .\.venv314\Scripts\python.exe -m pip install -e .[dev]
   - Release process changes.
 - Change log:
   - `2026-02-14`: Replaced with full master guide covering setup, architecture, workflows, CI, release, docs, debug, and governance.
-  - `2026-02-15`: Adopted workflow plan with supported CI matrix on Python 3.9-3.13 and experimental non-gated 3.14 checks.
+  - `2026-02-15`: Adopted workflow plan with supported CI matrix on Python 3.9-3.13.
 
 ## Security + Secrets Basics
 - Credentials/tokens:

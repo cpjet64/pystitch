@@ -4,13 +4,15 @@ NOTE: This is an updated fork of the original https://github.com/EmbroidePy/pyem
 
 Python library for the reading and writing of embroidery files.
 
-Compatible with Python >=3.9
+Compatible with Python >=3.9 (CI-gated on 3.9 through 3.13)
 
 
 To install:
 ```bash
 pip install pystitch
 ```
+
+For developer setup, testing workflows, CI/release expectations, and docs/debug guidance, use `DEVELOPERS.md`.
 
 Any suggestions or comments please raise an issue on the github.
 
