@@ -1,15 +1,15 @@
 from __future__ import print_function
 
-import unittest
+from test.cleanup_case import CleanupTestCase
 
 from test.pattern_for_tests import *
 import pystitch
 
 
-class TestConverts(unittest.TestCase):
+class TestConverts(CleanupTestCase):
 
     def position_equals(self, stitches, j, k):
-        self.assertEqual(stitches[j][:1], stitches[k][:1])
+        assert stitches[j][:1] == stitches[k][:1]
 
     def test_convert_tbf_to_u01(self):
         file1 = "convert_u01.tbf"
@@ -19,9 +19,9 @@ class TestConverts(unittest.TestCase):
         write_u01(f_pattern, file2)
         t_pattern = read_u01(file2)
 
-        self.assertIsNotNone(t_pattern)
-        self.assertEqual(t_pattern.count_stitch_commands(NEEDLE_SET), 16)
-        self.assertEqual(t_pattern.count_stitch_commands(STITCH), 16 * 5)
+        assert t_pattern is not None
+        assert t_pattern.count_stitch_commands(NEEDLE_SET) == 16
+        assert t_pattern.count_stitch_commands(STITCH) == 16 * 5
         self.position_equals(t_pattern.stitches, 0, -1)
         print("tbf->u01: ", t_pattern.stitches)
         self.addCleanup(os.remove, file1)
@@ -35,9 +35,9 @@ class TestConverts(unittest.TestCase):
         write_csv(f_pattern, file2)
         t_pattern = read_csv(file2)
 
-        self.assertIsNotNone(t_pattern)
-        self.assertEqual(t_pattern.count_stitch_commands(NEEDLE_SET), 16)
-        self.assertEqual(t_pattern.count_stitch_commands(STITCH), 16 * 5)
+        assert t_pattern is not None
+        assert t_pattern.count_stitch_commands(NEEDLE_SET) == 16
+        assert t_pattern.count_stitch_commands(STITCH) == 16 * 5
         self.position_equals(t_pattern.stitches, 0, -1)
         print("tbf->csv: ", t_pattern.stitches)
         self.addCleanup(os.remove, file1)
@@ -51,9 +51,9 @@ class TestConverts(unittest.TestCase):
         write_exp(f_pattern, file2)
         t_pattern = read_exp(file2)
 
-        self.assertIsNotNone(t_pattern)
-        self.assertEqual(t_pattern.count_stitch_commands(COLOR_CHANGE), 15)
-        self.assertEqual(t_pattern.count_stitch_commands(STITCH), 16 * 5)
+        assert t_pattern is not None
+        assert t_pattern.count_stitch_commands(COLOR_CHANGE) == 15
+        assert t_pattern.count_stitch_commands(STITCH) == 16 * 5
         self.position_equals(t_pattern.stitches, 0, -1)
         print("tbf->exp: ", t_pattern.stitches)
         self.addCleanup(os.remove, file1)
@@ -67,9 +67,9 @@ class TestConverts(unittest.TestCase):
         write_vp3(f_pattern, file2)
         t_pattern = read_vp3(file2)
 
-        self.assertIsNotNone(t_pattern)
-        self.assertEqual(t_pattern.count_stitch_commands(COLOR_CHANGE), 15)
-        self.assertEqual(t_pattern.count_stitch_commands(STITCH), 16 * 5)
+        assert t_pattern is not None
+        assert t_pattern.count_stitch_commands(COLOR_CHANGE) == 15
+        assert t_pattern.count_stitch_commands(STITCH) == 16 * 5
         self.position_equals(t_pattern.stitches, 0, -1)
         print("tbf->vp3: ", t_pattern.stitches)
         self.addCleanup(os.remove, file1)
@@ -83,9 +83,9 @@ class TestConverts(unittest.TestCase):
         write_jef(f_pattern, file2)
         t_pattern = read_jef(file2)
 
-        self.assertIsNotNone(t_pattern)
-        self.assertEqual(t_pattern.count_stitch_commands(COLOR_CHANGE), 15)
-        self.assertEqual(t_pattern.count_stitch_commands(STITCH), 16 * 5)
+        assert t_pattern is not None
+        assert t_pattern.count_stitch_commands(COLOR_CHANGE) == 15
+        assert t_pattern.count_stitch_commands(STITCH) == 16 * 5
         self.position_equals(t_pattern.stitches, 0, -1)
         print("tbf->jef: ", t_pattern.stitches)
         self.addCleanup(os.remove, file1)
@@ -99,9 +99,9 @@ class TestConverts(unittest.TestCase):
         write_pec(f_pattern, file2)
         t_pattern = read_pec(file2)
 
-        self.assertIsNotNone(t_pattern)
-        self.assertEqual(t_pattern.count_stitch_commands(COLOR_CHANGE), 15)
-        self.assertEqual(t_pattern.count_stitch_commands(STITCH), 16 * 5)
+        assert t_pattern is not None
+        assert t_pattern.count_stitch_commands(COLOR_CHANGE) == 15
+        assert t_pattern.count_stitch_commands(STITCH) == 16 * 5
         self.position_equals(t_pattern.stitches, 0, -1)
         print("tbf->pec: ", t_pattern.stitches)
         self.addCleanup(os.remove, file1)
@@ -115,9 +115,9 @@ class TestConverts(unittest.TestCase):
         write_tbf(f_pattern, file2)
         t_pattern = read_tbf(file2)
 
-        self.assertIsNotNone(t_pattern)
-        self.assertEqual(t_pattern.count_stitch_commands(NEEDLE_SET), 16)
-        self.assertEqual(t_pattern.count_stitch_commands(STITCH), 16 * 5)
+        assert t_pattern is not None
+        assert t_pattern.count_stitch_commands(NEEDLE_SET) == 16
+        assert t_pattern.count_stitch_commands(STITCH) == 16 * 5
         self.position_equals(t_pattern.stitches, 0, -1)
         print("tbf->tbf: ", t_pattern.stitches)
         self.addCleanup(os.remove, file1)
@@ -131,9 +131,9 @@ class TestConverts(unittest.TestCase):
         write_dst(f_pattern, file2)
         t_pattern = read_dst(file2)
 
-        self.assertIsNotNone(t_pattern)
-        self.assertEqual(t_pattern.count_stitch_commands(COLOR_CHANGE), 15)
-        self.assertEqual(t_pattern.count_stitch_commands(STITCH), 16 * 5)
+        assert t_pattern is not None
+        assert t_pattern.count_stitch_commands(COLOR_CHANGE) == 15
+        assert t_pattern.count_stitch_commands(STITCH) == 16 * 5
         self.position_equals(t_pattern.stitches, 0, -1)
         print("tbf->dst: ", t_pattern.stitches)
         self.addCleanup(os.remove, file1)
@@ -147,9 +147,9 @@ class TestConverts(unittest.TestCase):
         write_gcode(f_pattern, file2)
         t_pattern = read_gcode(file2)
 
-        self.assertIsNotNone(t_pattern)
-        self.assertEqual(t_pattern.count_stitch_commands(COLOR_CHANGE), 15)
-        self.assertEqual(t_pattern.count_stitch_commands(STITCH), 16 * 5)
+        assert t_pattern is not None
+        assert t_pattern.count_stitch_commands(COLOR_CHANGE) == 15
+        assert t_pattern.count_stitch_commands(STITCH) == 16 * 5
         self.position_equals(t_pattern.stitches, 0, -1)
         print("tbf->gcode: ", t_pattern.stitches)
         self.addCleanup(os.remove, file1)
@@ -163,9 +163,9 @@ class TestConverts(unittest.TestCase):
         write_pes(f_pattern, file2)
         t_pattern = read_pes(file2)
 
-        self.assertIsNotNone(t_pattern)
-        self.assertEqual(t_pattern.count_stitch_commands(COLOR_CHANGE), 15)
-        self.assertEqual(t_pattern.count_stitch_commands(STITCH), 16 * 5)
+        assert t_pattern is not None
+        assert t_pattern.count_stitch_commands(COLOR_CHANGE) == 15
+        assert t_pattern.count_stitch_commands(STITCH) == 16 * 5
         self.position_equals(t_pattern.stitches, 0, -1)
         print("tbf->pes: ", t_pattern.stitches)
         self.addCleanup(os.remove, file1)
@@ -179,9 +179,9 @@ class TestConverts(unittest.TestCase):
         write_xxx(f_pattern, file2)
         t_pattern = read_xxx(file2)
 
-        self.assertIsNotNone(t_pattern)
-        self.assertEqual(t_pattern.count_stitch_commands(COLOR_CHANGE), 15)
-        self.assertEqual(t_pattern.count_stitch_commands(STITCH), 16 * 5)
+        assert t_pattern is not None
+        assert t_pattern.count_stitch_commands(COLOR_CHANGE) == 15
+        assert t_pattern.count_stitch_commands(STITCH) == 16 * 5
         self.position_equals(t_pattern.stitches, 0, -1)
         print("tbf->xxx: ", t_pattern.stitches)
         self.addCleanup(os.remove, file1)
@@ -197,7 +197,7 @@ class TestConverts(unittest.TestCase):
         for x, y, cmd in f_pattern.stitches:
             if cmd & COMMAND_MASK == NEEDLE_SET:
                 flag, thread, needle, order = decode_embroidery_command(cmd)
-                self.assertEqual(needle, t)
+                assert needle == t
                 t -= 1
                 if t <= 0:
                     t = 8
@@ -205,10 +205,10 @@ class TestConverts(unittest.TestCase):
         write_u01(f_pattern, file2)
         t_pattern = read_u01(file2)
 
-        self.assertIsNotNone(t_pattern)
-        self.assertEqual(f_pattern.count_stitch_commands(NEEDLE_SET), 16)
-        self.assertEqual(t_pattern.count_stitch_commands(NEEDLE_SET), 16)
-        self.assertEqual(t_pattern.count_stitch_commands(STITCH), 16 * 5)
+        assert t_pattern is not None
+        assert f_pattern.count_stitch_commands(NEEDLE_SET) == 16
+        assert t_pattern.count_stitch_commands(NEEDLE_SET) == 16
+        assert t_pattern.count_stitch_commands(STITCH) == 16 * 5
         print("tbf->u01: ", t_pattern.stitches)
         self.addCleanup(os.remove, file1)
         self.addCleanup(os.remove, file2)
@@ -226,7 +226,7 @@ class TestConverts(unittest.TestCase):
         pystitch.write(f1, file2)
         f2 = read_tbf(file2)
         for i in range(len(f1.stitches)):
-            self.assertEqual(f1.stitches[i], f2.stitches[i])
+            assert f1.stitches[i] == f2.stitches[i]
         self.addCleanup(os.remove, file1)
         self.addCleanup(os.remove, file2)
 
@@ -260,8 +260,8 @@ class TestConverts(unittest.TestCase):
         write_tbf(pattern, file1, settings={"ct0": file2})
         f_pattern = read_tbf(file1)
 
-        self.assertNotEqual(len(f_pattern.threadlist), 1)
-        self.assertEqual(f_pattern.count_stitch_commands(STITCH), 3 * 5)
+        assert len(f_pattern.threadlist) != 1
+        assert f_pattern.count_stitch_commands(STITCH) == 3 * 5
 
         self.addCleanup(os.remove, file1)
         self.addCleanup(os.remove, file2)

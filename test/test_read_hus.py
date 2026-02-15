@@ -6,7 +6,7 @@
 # from EmbCompress import expand, compress
 #
 #
-# class TestReadHus(unittest.TestCase):
+# class TestReadHus(CleanupTestCase):
 #
 #     def test_fake_compression(self):
 #         for i in range(10):

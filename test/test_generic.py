@@ -1,13 +1,13 @@
 from __future__ import print_function
 
-import unittest
+from test.cleanup_case import CleanupTestCase
 
 from test.pattern_for_tests import *
 from pystitch import GenericWriter
 import pystitch
 
 
-class TestConverts(unittest.TestCase):
+class TestConverts(CleanupTestCase):
     def test_generic_write_stitch(self):
         file1 = "convert.dst"
         file2 = "convert.txt"
@@ -40,7 +40,7 @@ class TestConverts(unittest.TestCase):
 
     def test_generic_write_gcode(self):
         # Ink/Stitch uses an other gcode writer
-        '''
+        """
         gcode_writer_dict = {
             "scale": (-0.1, -0.1),
             "pattern_start": "(STITCH_COUNT: {stitch_total})\n"
@@ -79,4 +79,4 @@ class TestConverts(unittest.TestCase):
         self.assertEqual(f1, f2)
         self.addCleanup(os.remove, file1)
         self.addCleanup(os.remove, file2)
-        '''
+        """

@@ -18,6 +18,7 @@ class Turtle:
         self.x = 0
         self.y = 0
         import math
+
         self.turn_amount = math.pi / 3
 
     def forward(self, distance):
@@ -42,7 +43,7 @@ class Turtle:
         rules = {
             initial: [a],
             a: [a, l, b, l, l, b, r, a, r, r, a, a, r, b, l],
-            b: [r, a, l, b, b, l, l, b, l, a, r, r, a, r, b]
+            b: [r, a, l, b, b, l, l, b, l, a, r, r, a, r, b],
         }
         evaluate_lsystem(initial, rules, 3)  # 4
 
@@ -52,11 +53,7 @@ class Turtle:
         l = lambda: self.turn(self.turn_amount)
         r = lambda: self.turn(-self.turn_amount)
         initial = lambda: None
-        rules = {
-            initial: [a],
-            a: [b, l, a, l, b],
-            b: [a, r, b, r, a]
-        }
+        rules = {initial: [a], a: [b, l, a, l, b], b: [a, r, b, r, a]}
         evaluate_lsystem(initial, rules, 3)  # 6
 
 
@@ -164,7 +161,7 @@ def get_small_shift_pattern_needles():
     pattern += "khaki"
     pattern += "oldlace"
 
-    for needle in (3,2,1):
+    for needle in (3, 2, 1):
         pattern.needle_change(needle=needle)
         pattern += (0, 0), (0, 100), (100, 100), (100, 0), (0, 0)
         pattern.add_command(MATRIX_TRANSLATE, 25, 25)
@@ -230,7 +227,7 @@ def get_shift_stop_pattern():
 
 def get_simple_stop():
     pattern = EmbPattern()
-    pattern += (0,0)
+    pattern += (0, 0)
     pattern += (0, 100)
     pattern += (100, 100)
     pattern += (100, 0)
@@ -265,10 +262,13 @@ def get_random_pattern_large(count=1000):
 
     for i in range(0, count):
         pattern.add_block(
-            [(random.uniform(-500, 500), random.uniform(-500, 500)),
-             (random.uniform(-500, 500), random.uniform(-500, 500)),
-             (random.uniform(-500, 500), random.uniform(-500, 500))],
-            random.randint(0x000000, 0xFFFFFF))
+            [
+                (random.uniform(-500, 500), random.uniform(-500, 500)),
+                (random.uniform(-500, 500), random.uniform(-500, 500)),
+                (random.uniform(-500, 500), random.uniform(-500, 500)),
+            ],
+            random.randint(0x000000, 0xFFFFFF),
+        )
     return pattern
 
 
@@ -277,21 +277,28 @@ def get_random_pattern_small():
     import random
 
     pattern.add_block(
-        [(random.uniform(-500, 500), random.uniform(-500, 500)),
-         (random.uniform(-500, 500), random.uniform(-500, 500)),
-         (random.uniform(-500, 500), random.uniform(-500, 500))],
-        random.randint(0x000000, 0xFFFFFF))
+        [
+            (random.uniform(-500, 500), random.uniform(-500, 500)),
+            (random.uniform(-500, 500), random.uniform(-500, 500)),
+            (random.uniform(-500, 500), random.uniform(-500, 500)),
+        ],
+        random.randint(0x000000, 0xFFFFFF),
+    )
     return pattern
 
 
 def get_random_pattern_small_halfs():
     pattern = EmbPattern()
     import random
+
     pattern.add_block(
-        [(random.randint(-500, 500) / 2.0, random.randint(-500, 500) / 2.0),
-         (random.randint(-500, 500) / 2.0, random.randint(-500, 500) / 2.0),
-         (random.randint(-500, 500) / 2.0, random.randint(-500, 500) / 2.0)],
-        random.randint(0x000000, 0xFFFFFF))
+        [
+            (random.randint(-500, 500) / 2.0, random.randint(-500, 500) / 2.0),
+            (random.randint(-500, 500) / 2.0, random.randint(-500, 500) / 2.0),
+            (random.randint(-500, 500) / 2.0, random.randint(-500, 500) / 2.0),
+        ],
+        random.randint(0x000000, 0xFFFFFF),
+    )
     return pattern
 
 

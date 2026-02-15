@@ -1,23 +1,23 @@
 from __future__ import print_function
 
-import unittest
+from test.cleanup_case import CleanupTestCase
 
 from test.pattern_for_tests import *
 
 
-class TestColorFormats(unittest.TestCase):
+class TestColorFormats(CleanupTestCase):
 
     def test_write_read_col(self):
         file1 = "color.col"
-        for m in range(0,50):
+        for m in range(0, 50):
             pattern = EmbPattern()
             for i in range(4, 20):
                 pattern.add_thread(EmbThread("random"))
             write(pattern, file1)
             w_pattern = read(file1)
-            self.assertEqual(len(pattern.threadlist), len(w_pattern.threadlist))
-            for q in range(0,len(pattern.threadlist)):
-                self.assertEqual(pattern.threadlist[q].color, w_pattern.threadlist[q].color)
+            assert len(pattern.threadlist) == len(w_pattern.threadlist)
+            for q in range(0, len(pattern.threadlist)):
+                assert pattern.threadlist[q].color == w_pattern.threadlist[q].color
         self.addCleanup(os.remove, file1)
 
     def test_write_read_edr(self):
@@ -28,9 +28,9 @@ class TestColorFormats(unittest.TestCase):
                 pattern.add_thread(EmbThread("random"))
             write(pattern, file1)
             w_pattern = read(file1)
-            self.assertEqual(len(pattern.threadlist), len(w_pattern.threadlist))
+            assert len(pattern.threadlist) == len(w_pattern.threadlist)
             for q in range(0, len(pattern.threadlist)):
-                self.assertEqual(pattern.threadlist[q].color, w_pattern.threadlist[q].color)
+                assert pattern.threadlist[q].color == w_pattern.threadlist[q].color
         self.addCleanup(os.remove, file1)
 
     def test_write_read_inf(self):
@@ -41,9 +41,9 @@ class TestColorFormats(unittest.TestCase):
                 pattern.add_thread(EmbThread("random"))
             write(pattern, file1)
             w_pattern = read(file1)
-            self.assertEqual(len(pattern.threadlist), len(w_pattern.threadlist))
+            assert len(pattern.threadlist) == len(w_pattern.threadlist)
             for q in range(0, len(pattern.threadlist)):
-                self.assertEqual(pattern.threadlist[q].color, w_pattern.threadlist[q].color)
+                assert pattern.threadlist[q].color == w_pattern.threadlist[q].color
         self.addCleanup(os.remove, file1)
 
     def test_write_edr_dst(self):
@@ -54,9 +54,9 @@ class TestColorFormats(unittest.TestCase):
         write(pattern, file2)
         w_pattern = read(file1)
         w_pattern = read(file2, pattern=w_pattern)
-        self.assertEqual(len(pattern.threadlist), len(w_pattern.threadlist))
+        assert len(pattern.threadlist) == len(w_pattern.threadlist)
         for q in range(0, len(pattern.threadlist)):
-            self.assertEqual(pattern.threadlist[q].color, w_pattern.threadlist[q].color)
+            assert pattern.threadlist[q].color == w_pattern.threadlist[q].color
         self.addCleanup(os.remove, file1)
         self.addCleanup(os.remove, file2)
 
@@ -68,9 +68,9 @@ class TestColorFormats(unittest.TestCase):
         write(pattern, file2)
         w_pattern = read(file1)
         w_pattern = read(file2, pattern=w_pattern)
-        self.assertEqual(len(pattern.threadlist), len(w_pattern.threadlist))
+        assert len(pattern.threadlist) == len(w_pattern.threadlist)
         for q in range(0, len(pattern.threadlist)):
-            self.assertEqual(pattern.threadlist[q].color, w_pattern.threadlist[q].color)
+            assert pattern.threadlist[q].color == w_pattern.threadlist[q].color
         self.addCleanup(os.remove, file1)
         self.addCleanup(os.remove, file2)
 
@@ -82,9 +82,9 @@ class TestColorFormats(unittest.TestCase):
         write(pattern, file2)
         w_pattern = read(file1)
         w_pattern = read(file2, pattern=w_pattern)
-        self.assertEqual(len(pattern.threadlist), len(w_pattern.threadlist))
+        assert len(pattern.threadlist) == len(w_pattern.threadlist)
         for q in range(0, len(pattern.threadlist)):
-            self.assertEqual(pattern.threadlist[q].color, w_pattern.threadlist[q].color)
+            assert pattern.threadlist[q].color == w_pattern.threadlist[q].color
         self.addCleanup(os.remove, file1)
         self.addCleanup(os.remove, file2)
 
@@ -96,8 +96,8 @@ class TestColorFormats(unittest.TestCase):
         write(pattern, file2)
         w_pattern = read(file1)
         w_pattern = read(file2, pattern=w_pattern)
-        self.assertEqual(len(pattern.threadlist), len(w_pattern.threadlist))
+        assert len(pattern.threadlist) == len(w_pattern.threadlist)
         for q in range(0, len(pattern.threadlist)):
-            self.assertEqual(pattern.threadlist[q].color, w_pattern.threadlist[q].color)
+            assert pattern.threadlist[q].color == w_pattern.threadlist[q].color
         self.addCleanup(os.remove, file1)
         self.addCleanup(os.remove, file2)

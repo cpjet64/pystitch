@@ -1,46 +1,46 @@
 from __future__ import print_function
 
-import unittest
+from test.cleanup_case import CleanupTestCase
 from pystitch import *
 
 
-class TestMatrix(unittest.TestCase):
+class TestMatrix(CleanupTestCase):
 
     def test_matrix(self):
         matrix = EmbMatrix()
         matrix.post_rotate(90, 100, 100)
         p = matrix.point_in_matrix_space(50, 50)
-        self.assertAlmostEqual(p[0], 150)
-        self.assertAlmostEqual(p[1], 50)
+        assert round(abs(p[0] - 150), 7) == 0
+        assert round(abs(p[1] - 50), 7) == 0
 
     def test_matrix_2(self):
         matrix = EmbMatrix()
         matrix.reset()
         matrix.post_scale(2, 2, 50, 50)
         p = matrix.point_in_matrix_space(50, 50)
-        self.assertAlmostEqual(p[0], 50)
-        self.assertAlmostEqual(p[1], 50)
+        assert round(abs(p[0] - 50), 7) == 0
+        assert round(abs(p[1] - 50), 7) == 0
 
         p = matrix.point_in_matrix_space(25, 25)
-        self.assertAlmostEqual(p[0], 0)
-        self.assertAlmostEqual(p[1], 0)
+        assert round(abs(p[0] - 0), 7) == 0
+        assert round(abs(p[1] - 0), 7) == 0
         matrix.post_rotate(45, 50, 50)
 
         p = matrix.point_in_matrix_space(25, 25)
-        self.assertAlmostEqual(p[0], 50)
+        assert round(abs(p[0] - 50), 7) == 0
 
     def test_matrix_3(self):
         matrix = EmbMatrix()
         matrix.reset()
         matrix.post_scale(0.5, 0.5)
         p = matrix.point_in_matrix_space(100, 100)
-        self.assertAlmostEqual(p[0], 50)
-        self.assertAlmostEqual(p[1], 50)
+        assert round(abs(p[0] - 50), 7) == 0
+        assert round(abs(p[1] - 50), 7) == 0
         matrix.reset()
         matrix.post_scale(2, 2, 100, 100)
         p = matrix.point_in_matrix_space(50, 50)
-        self.assertAlmostEqual(p[0], 0)
-        self.assertAlmostEqual(p[1], 0)
+        assert round(abs(p[0] - 0), 7) == 0
+        assert round(abs(p[1] - 0), 7) == 0
 
     def test_matrix_rotate(self):
         pattern = EmbPattern()
@@ -51,12 +51,12 @@ class TestMatrix(unittest.TestCase):
         pattern.add_block([(10, 10), (10, 110), (110, 110), (110, 10), (10, 10)], "aqua")
         pattern = pattern.get_normalized_pattern()
         print("rotate:", pattern.stitches)
-        self.assertAlmostEqual(pattern.stitches[4][0], pattern.stitches[6][0])
-        self.assertAlmostEqual(pattern.stitches[4][1], pattern.stitches[6][1])
-        self.assertAlmostEqual(pattern.stitches[10][0], pattern.stitches[12][0])
-        self.assertAlmostEqual(pattern.stitches[10][1], pattern.stitches[12][1])
-        self.assertAlmostEqual(pattern.stitches[4][0], pattern.stitches[12][0])
-        self.assertAlmostEqual(pattern.stitches[4][1], pattern.stitches[12][1])
+        assert round(abs(pattern.stitches[4][0] - pattern.stitches[6][0]), 7) == 0
+        assert round(abs(pattern.stitches[4][1] - pattern.stitches[6][1]), 7) == 0
+        assert round(abs(pattern.stitches[10][0] - pattern.stitches[12][0]), 7) == 0
+        assert round(abs(pattern.stitches[10][1] - pattern.stitches[12][1]), 7) == 0
+        assert round(abs(pattern.stitches[4][0] - pattern.stitches[12][0]), 7) == 0
+        assert round(abs(pattern.stitches[4][1] - pattern.stitches[12][1]), 7) == 0
         file1 = "file.svg"
         write_svg(pattern, file1)
         self.addCleanup(os.remove, file1)
@@ -70,11 +70,11 @@ class TestMatrix(unittest.TestCase):
         pattern.add_block([(10, 10), (10, 110), (110, 110), (110, 10), (10, 10)], "aqua")
         pattern = pattern.get_normalized_pattern()
         print("translate:", pattern.stitches)
-        self.assertIsNotNone(pattern.stitches)
-        self.assertEqual(pattern.count_stitch_commands(MATRIX_TRANSLATE), 0)
+        assert pattern.stitches is not None
+        assert pattern.count_stitch_commands(MATRIX_TRANSLATE) == 0
 
-        self.assertAlmostEqual(pattern.stitches[4][0], pattern.stitches[12][0])
-        self.assertAlmostEqual(pattern.stitches[4][1], pattern.stitches[12][1])
+        assert round(abs(pattern.stitches[4][0] - pattern.stitches[12][0]), 7) == 0
+        assert round(abs(pattern.stitches[4][1] - pattern.stitches[12][1]), 7) == 0
         file1 = "file2.svg"
         write_svg(pattern, file1)
         self.addCleanup(os.remove, file1)
@@ -88,11 +88,11 @@ class TestMatrix(unittest.TestCase):
         pattern.add_block([(0, 0), (0, 100), (100, 100), (100, 0), (0, 0)], "aqua")
         pattern = pattern.get_normalized_pattern()
         print("transrot:", pattern.stitches)
-        self.assertIsNotNone(pattern.stitches)
-        self.assertEqual(pattern.count_stitch_commands(MATRIX_TRANSLATE), 0)
-        self.assertEqual(pattern.count_stitch_commands(MATRIX_ROTATE), 0)
-        self.assertAlmostEqual(pattern.stitches[14][0], 140)
-        self.assertAlmostEqual(pattern.stitches[14][1], -120)
+        assert pattern.stitches is not None
+        assert pattern.count_stitch_commands(MATRIX_TRANSLATE) == 0
+        assert pattern.count_stitch_commands(MATRIX_ROTATE) == 0
+        assert round(abs(pattern.stitches[14][0] - 140), 7) == 0
+        assert round(abs(pattern.stitches[14][1] - -120), 7) == 0
         file1 = "file3.svg"
         write_svg(pattern, file1)
         self.addCleanup(os.remove, file1)
@@ -106,11 +106,11 @@ class TestMatrix(unittest.TestCase):
         pattern.add_block([(10, 10), (10, 110), (110, 110), (110, 10), (10, 10)], "aqua")
         pattern = pattern.get_normalized_pattern()
         print("transcale:", pattern.stitches)
-        self.assertIsNotNone(pattern.stitches)
-        self.assertEqual(pattern.count_stitch_commands(MATRIX_TRANSLATE), 0)
-        self.assertEqual(pattern.count_stitch_commands(MATRIX_SCALE), 0)
-        self.assertAlmostEqual(pattern.stitches[13][0], 50)
-        self.assertAlmostEqual(pattern.stitches[13][1], 290)
+        assert pattern.stitches is not None
+        assert pattern.count_stitch_commands(MATRIX_TRANSLATE) == 0
+        assert pattern.count_stitch_commands(MATRIX_SCALE) == 0
+        assert round(abs(pattern.stitches[13][0] - 50), 7) == 0
+        assert round(abs(pattern.stitches[13][1] - 290), 7) == 0
         file1 = "file4.svg"
         write_svg(pattern, file1)
         self.addCleanup(os.remove, file1)

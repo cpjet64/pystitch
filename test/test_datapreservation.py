@@ -1,10 +1,10 @@
 from __future__ import print_function
 
-import unittest
+from test.cleanup_case import CleanupTestCase
 from test.pattern_for_tests import *
 
 
-class TestDataPreservation(unittest.TestCase):
+class TestDataPreservation(CleanupTestCase):
 
     def test_preserve_u01_needles(self):
         file1 = "file.u01"

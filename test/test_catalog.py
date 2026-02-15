@@ -1,16 +1,11 @@
 from __future__ import print_function
 
-import unittest
-
-from test.pattern_for_tests import *
 import pystitch
 
 
-class TestDataCatalog(unittest.TestCase):
-
-    def test_catalog_files(self):
-        for f in pystitch.supported_formats():
-            self.assertIn("extensions", f)
-            self.assertIn("extension", f)
-            self.assertIn("description", f)
-            self.assertIn("category", f)
+def test_catalog_files():
+    for f in pystitch.supported_formats():
+        assert "extensions" in f
+        assert "extension" in f
+        assert "description" in f
+        assert "category" in f
