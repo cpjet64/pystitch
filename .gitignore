@@ -1,2 +1,32 @@
 __pycache__
-pystitch.egg-info
+*.egg-info
+*.py[cod]
+*.pyo
+.DS_Store
+build
+dist
+pip-wheel-metadata
+
+# venv
+.venv39
+.venv310
+.venv311
+.venv312
+.venv313
+.venv314
+
+# AI agents
+/.AGENTS
+
+# tests
+unittest*
+
+# nox + quality tooling
+.nox
+.pytest_cache
+.ruff_cache
+.mypy_cache
+.coverage
+.coverage.*
+coverage.xml
+htmlcov
