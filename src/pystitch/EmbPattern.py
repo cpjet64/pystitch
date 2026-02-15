@@ -1,4 +1,5 @@
 import os
+from typing import Any
 
 from .EmbEncoder import Transcoder as Normalizer
 from .EmbFunctions import *
@@ -6,13 +7,13 @@ from .EmbThread import EmbThread
 
 
 class EmbPattern:
-    def __init__(self, *args, **kwargs):
-        self.stitches = []  # type: list
-        self.threadlist = []  # type: list
-        self.extras = {}  # type: dict
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        self.stitches: list = []
+        self.threadlist: list = []
+        self.extras: dict = {}
         # filename, name, category, author, keywords, comments, are typical
-        self._previousX = 0  # type: float
-        self._previousY = 0  # type: float
+        self._previousX: float = 0
+        self._previousY: float = 0
         len_args = len(args)
         if len_args >= 1:
             arg0 = args[0]
@@ -88,9 +89,7 @@ class EmbPattern:
             if len(other) == 0:
                 return
             v = other[0]
-            if isinstance(v, list) or isinstance(
-                v, tuple
-            ):  # tuple or list of tuple or lists
+            if isinstance(v, list) or isinstance(v, tuple):  # tuple or list of tuple or lists
                 for v in other:
                     x = v[0]
                     y = v[1]
@@ -104,9 +103,7 @@ class EmbPattern:
                     x = v.real
                     y = v.imag
                     self.add_stitch_absolute(STITCH, x, y)
-            elif isinstance(v, int) or isinstance(
-                v, float
-            ):  # tuple or list of numbers.
+            elif isinstance(v, int) or isinstance(v, float):  # tuple or list of numbers.
                 i = 0
                 ie = len(other)
                 while i < ie:
@@ -443,9 +440,7 @@ class EmbPattern:
             position += len(self.stitches)  # I need positive positions.
         if position == 0:
             self.stitches.insert(0, [dx, dy, cmd])  # started (0,0)
-        elif (
-            position == len(self.stitches) or position is None
-        ):  # This is properly just an add.
+        elif position == len(self.stitches) or position is None:  # This is properly just an add.
             self.add_stitch_relative(cmd, dx, dy)
         elif 0 < position < len(self.stitches):
             p = self.stitches[position - 1]
@@ -582,8 +577,7 @@ class EmbPattern:
                         if (
                             last_change is not None
                             and thread_index != 0
-                            and self.threadlist[thread_index - 1]
-                            == self.threadlist[thread_index]
+                            and self.threadlist[thread_index - 1] == self.threadlist[thread_index]
                         ):
                             del self.threadlist[thread_index]
                             self.stitches[last_change][2] = STOP
@@ -816,7 +810,7 @@ class EmbPattern:
                 pass
             if text_mode:
                 try:
-                    with open(f, "r", errors='ignore') as stream:
+                    with open(f, "r", errors="ignore") as stream:
                         reader.read(stream, pattern, settings)
                         stream.close()
                 except IOError:
@@ -827,7 +821,6 @@ class EmbPattern:
         else:
             reader.read(f, pattern, settings)
         return pattern
-
 
     @staticmethod
     def write_embroidery(writer, pattern, stream, settings=None):

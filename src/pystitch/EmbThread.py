@@ -1,3 +1,6 @@
+from typing import Any, Optional
+
+
 def build_unique_palette(thread_palette, threadlist):
     """Turns a threadlist into a unique index list with the thread palette"""
     chart = [None] * len(thread_palette)  # Create a lookup chart.
@@ -54,9 +57,7 @@ def find_nearest_color_index(find_color, values):
     for current_index, t in enumerate(values):
         if t is None:
             continue
-        dist = color_distance_red_mean(
-            red, green, blue, t.get_red(), t.get_green(), t.get_blue()
-        )
+        dist = color_distance_red_mean(red, green, blue, t.get_red(), t.get_green(), t.get_blue())
         if dist <= current_closest_value:  # <= choose second if they tie.
             current_closest_value = dist
             closest_index = current_index
@@ -81,11 +82,7 @@ def color_distance_red_mean(r1, g1, b1, r2, g2, b2):
     r = int(r1 - r2)
     g = int(g1 - g2)
     b = int(b1 - b2)
-    return (
-        (((512 + red_mean) * r * r) >> 8)
-        + 4 * g * g
-        + (((767 - red_mean) * b * b) >> 8)
-    )
+    return (((512 + red_mean) * r * r) >> 8) + 4 * g * g + (((767 - red_mean) * b * b) >> 8)
     # See the very good color distance paper:
     # https://www.compuphase.com/cmetric.htm
 
@@ -93,21 +90,21 @@ def color_distance_red_mean(r1, g1, b1, r2, g2, b2):
 class EmbThread:
     def __init__(
         self,
-        thread=None,
-        description=None,
-        catalog_number=None,
-        details=None,
-        brand=None,
-        chart=None,
-        weight=None,
-    ):
-        self.color = 0x000000
-        self.description = description  # type: str
-        self.catalog_number = catalog_number  # type: str
-        self.details = details  # type: str
-        self.brand = brand  # type: str
-        self.chart = chart  # type: str
-        self.weight = weight  # type: str
+        thread: Any = None,
+        description: Optional[str] = None,
+        catalog_number: Optional[str] = None,
+        details: Optional[str] = None,
+        brand: Optional[str] = None,
+        chart: Optional[str] = None,
+        weight: Optional[str] = None,
+    ) -> None:
+        self.color: int = 0x000000
+        self.description: Optional[str] = description
+        self.catalog_number: Optional[str] = catalog_number
+        self.details: Optional[str] = details
+        self.brand: Optional[str] = brand
+        self.chart: Optional[str] = chart
+        self.weight: Optional[str] = weight
         # description, catalog_number, details, brand, chart, weight
         if thread is not None:
             self.set(thread)
@@ -138,10 +135,7 @@ class EmbThread:
         if isinstance(other, int):
             return self.color & 0xFFFFFF == other & 0xFFFFFF
         if isinstance(other, str):
-            return (
-                self.color & 0xFFFFFF
-                == EmbThread.parse_string_color(other) & 0xFFFFFF
-            )
+            return self.color & 0xFFFFFF == EmbThread.parse_string_color(other) & 0xFFFFFF
         if not isinstance(other, EmbThread):
             return False
         if self.color & 0xFFFFFF != other.color & 0xFFFFFF:
@@ -229,9 +223,7 @@ class EmbThread:
                     self.color = color
                 elif isinstance(color, tuple) or isinstance(color, list):
                     self.color = (
-                        (color[0] & 0xFF) << 16
-                        | (color[1] & 0xFF) << 8
-                        | (color[2] & 0xFF)
+                        (color[0] & 0xFF) << 16 | (color[1] & 0xFF) << 8 | (color[2] & 0xFF)
                     )
                 elif isinstance(color, str):
                     self.color = self.parse_string_color(color)
