@@ -74,7 +74,7 @@ jobs:
           path: .nox
           key: >-
             ${{ runner.os }}-nox-supported-${{ matrix.python-version }}-${{
-            hashFiles('requirements.txt', 'pyproject.toml', 'noxfile.py',
+            hashFiles('requirements.txt', 'noxfile.py', 'pyproject.toml',
             '.github/workflows/test.yml', '.ci/audit_with_waivers.py', '.ci/audit-waivers.json')
             }}
           restore-keys: |
@@ -118,7 +118,7 @@ jobs:
           path: .nox
           key: >-
             ${{ runner.os }}-nox-packaging-3.13-${{
-            hashFiles('requirements.txt', 'pyproject.toml', 'noxfile.py',
+            hashFiles('requirements.txt', 'noxfile.py', 'pyproject.toml',
             '.github/workflows/test.yml', '.ci/audit_with_waivers.py', '.ci/audit-waivers.json')
             }}
           restore-keys: |
@@ -129,7 +129,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install nox
 
-      - name: Build and validate artifacts
+      - name: Run packaging smoke checks
         run: |
           python -m nox -s package-3.13
 
@@ -137,7 +137,7 @@ jobs:
         run: |
           mkdir -p ci-artifacts
           {
-            echo "pystitch package checks passed"
+            echo "pystitch package smoke checks passed"
             echo "python=$(python -V)"
             echo "workflow=${{ github.workflow }}"
             echo "run_id=${{ github.run_id }}"
@@ -182,7 +182,7 @@ jobs:
           path: .nox
           key: >-
             ${{ runner.os }}-nox-experimental-3.14-${{
-            hashFiles('requirements.txt', 'pyproject.toml', 'noxfile.py',
+            hashFiles('requirements.txt', 'noxfile.py', 'pyproject.toml',
             '.github/workflows/test.yml', '.ci/audit_with_waivers.py', '.ci/audit-waivers.json')
             }}
           restore-keys: |
@@ -225,7 +225,7 @@ jobs:
           path: .nox
           key: >-
             ${{ runner.os }}-nox-audit-3.13-${{
-            hashFiles('requirements.txt', 'pyproject.toml', 'noxfile.py',
+            hashFiles('requirements.txt', 'noxfile.py', 'pyproject.toml',
             '.github/workflows/test.yml', '.ci/audit_with_waivers.py', '.ci/audit-waivers.json')
             }}
           restore-keys: |
